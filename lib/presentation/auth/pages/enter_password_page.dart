@@ -1,19 +1,17 @@
-import 'package:ecommerce/common/helper/navigator/app_navigator.dart';
 import 'package:ecommerce/common/widgets/appbar/app_bar.dart';
 import 'package:ecommerce/common/widgets/button/basic_app_button.dart';
-import 'package:ecommerce/presentation/auth/pages/enter_password_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 
-class SigninPage extends StatelessWidget {
-  const SigninPage({super.key});
+class EnterPasswordPage extends StatelessWidget {
+  const EnterPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:const BasicAppbar(hideBack: true),
-      body:Padding(padding: EdgeInsets.symmetric(
+      appBar:const  BasicAppbar(),
+      body:Padding(padding: const EdgeInsets.symmetric(
         horizontal: 25,
         vertical: 50,
       ),  
@@ -26,7 +24,7 @@ class SigninPage extends StatelessWidget {
               const SizedBox(height: 20),
               _ContinueButton(context),
               const SizedBox(height: 20),
-              _CreateAccount(context)
+              _Forgotpassword(context)
         ],
       ),
       ),
@@ -45,26 +43,24 @@ class SigninPage extends StatelessWidget {
   Widget _Textfeild (BuildContext context){
     return const TextField(
       decoration: InputDecoration(
-        hintText: 'Enter Email'
+        hintText: 'Enter Password'
       ),
     );
   }
 
   Widget _ContinueButton (BuildContext context){
-    return BasicAppButton(onPressed: (){
-      AppNavigator.push(context,const  EnterPasswordPage());
-    },
+    return BasicAppButton(onPressed: (){},
     title: 'Continue',
     );  
   }
 
-  Widget _CreateAccount (BuildContext context){
+  Widget _Forgotpassword (BuildContext context){
     return RichText(
       text:TextSpan(
         children: [
-          TextSpan(text: "Don't have an account?"),
+          TextSpan(text: "Forgot password?"),
           TextSpan(
-            text: "Create One",
+            text: "Reset!",
             recognizer: TapGestureRecognizer()..onTap = ()
             {
 
