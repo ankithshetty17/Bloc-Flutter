@@ -3,6 +3,9 @@ class UserCreationReq{
   String? Lastname;
   String? Email;
   String? Password;
+  int? Gender;
+  String ? Age;
+  
 
 
   UserCreationReq({
@@ -10,5 +13,7 @@ class UserCreationReq{
     required this.Lastname,
     required this.Email,
     required this.Password,
+    required this.Gender,
+    required this.Age
   });
 }
