@@ -2,18 +2,18 @@ import 'package:ecommerce/common/helper/navigator/app_navigator.dart';
 import 'package:ecommerce/common/widgets/appbar/app_bar.dart';
 import 'package:ecommerce/common/widgets/button/basic_app_button.dart';
 import 'package:ecommerce/presentation/auth/pages/enter_password_page.dart';
-import 'package:ecommerce/presentation/auth/pages/signup.dart';
+import 'package:ecommerce/presentation/auth/pages/signin.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 
-class SigninPage extends StatelessWidget {
-  const SigninPage({super.key});
+class SignupPage extends StatelessWidget {
+  const SignupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:const BasicAppbar(hideBack: true),
+      appBar:const BasicAppbar(),
       body:Padding(padding: EdgeInsets.symmetric(
         horizontal: 25,
         vertical: 50,
@@ -23,8 +23,14 @@ class SigninPage extends StatelessWidget {
         children: [
               _SigninText(context),
               const SizedBox(height: 20),
-              _Textfeild(context),
+              _firstnameFeild(context),
               const SizedBox(height: 20),
+              _lastnameFeild(context),
+               const SizedBox(height: 20),
+              _emailFeild(context),
+              const SizedBox(height: 20),
+              _passwordFeild(context),
+               const SizedBox(height: 20),
               _ContinueButton(context),
               const SizedBox(height: 20),
               _CreateAccount(context)
@@ -35,18 +41,42 @@ class SigninPage extends StatelessWidget {
   }
   Widget _SigninText (BuildContext context){
     return const Text(
-      'Sign in',
+      'Create Account',
       style:TextStyle(
         fontSize: 32,
         fontWeight: FontWeight.bold
       ),
     );
   }
+  
+  Widget _firstnameFeild (BuildContext context){
+    return const TextField(
+      decoration: InputDecoration(
+        hintText: 'Firstname'
+      ),
+    );
+  }
 
-  Widget _Textfeild (BuildContext context){
+  Widget _lastnameFeild (BuildContext context){
+    return const TextField(
+      decoration: InputDecoration(
+        hintText: 'Lastname'
+      ),
+    );
+  }
+
+  Widget _emailFeild (BuildContext context){
     return const TextField(
       decoration: InputDecoration(
         hintText: 'Enter Email'
+      ),
+    );
+  }
+
+  Widget _passwordFeild (BuildContext context){
+    return const TextField(
+      decoration: InputDecoration(
+        hintText: 'Password'
       ),
     );
   }
@@ -63,12 +93,13 @@ class SigninPage extends StatelessWidget {
     return RichText(
       text:TextSpan(
         children: [
-          TextSpan(text: "Don't have an account?"),
+          TextSpan(text: "Alreay have an account?"),
           TextSpan(
-            text: "Create One",
+            text: "Signin",
             recognizer: TapGestureRecognizer()..onTap = ()
             {
-                AppNavigator.push(context,const  SignupPage());
+              AppNavigator.push(context,const  SigninPage());
+
             },
             style: const TextStyle(fontWeight: FontWeight.bold)
           )
