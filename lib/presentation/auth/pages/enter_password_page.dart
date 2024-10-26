@@ -2,7 +2,6 @@ import 'package:ecommerce/common/helper/navigator/app_navigator.dart';
 import 'package:ecommerce/common/widgets/appbar/app_bar.dart';
 import 'package:ecommerce/common/widgets/button/basic_app_button.dart';
 import 'package:ecommerce/presentation/auth/pages/forgot_password.dart';
-import 'package:ecommerce/presentation/auth/pages/gender_age_selection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +53,7 @@ class EnterPasswordPage extends StatelessWidget {
   Widget _ContinueButton (BuildContext context){
     return BasicAppButton(onPressed: (){
       
-      AppNavigator.push(context, GenderAgeSelection());
+      
     },
     title: 'Continue',
     );  
