@@ -3,6 +3,7 @@ import 'package:ecommerce/common/widgets/appbar/app_bar.dart';
 import 'package:ecommerce/common/widgets/button/basic_app_button.dart';
 import 'package:ecommerce/core/themes/app_colors.dart';
 import 'package:ecommerce/presentation/auth/bloc/age_selection_cubit.dart';
+import 'package:ecommerce/presentation/auth/bloc/ages_display_cubit.dart';
 import 'package:ecommerce/presentation/auth/bloc/gender_selection_cubit.dart';
 import 'package:ecommerce/presentation/auth/widgets/ages.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,8 @@ class GenderAgeSelection extends StatelessWidget {
      body: MultiBlocProvider(
       providers: [
           BlocProvider(create: (context) => GenderSelectionCubit()),
-          BlocProvider(create: (context) => AgeSelectionCubit())
+          BlocProvider(create: (context) => AgeSelectionCubit()),
+          BlocProvider(create: (context) => AgesDisplayCubit())
       ],
      child:
      Column(
@@ -123,7 +125,13 @@ class GenderAgeSelection extends StatelessWidget {
       onTap: (){
         AppBottomsheet.display(
         context,
-        const Ages(),
+        MultiBlocProvider(
+      providers: [
+          BlocProvider.value(value: context.read<AgeSelectionCubit>()),
+          BlocProvider.value(value:context.read<AgesDisplayCubit>()..displayAges())
+      ],
+      child: const Ages()
+      ),
         );
       },
       child: Container(

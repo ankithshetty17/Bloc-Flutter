@@ -8,6 +8,8 @@ abstract class AuthFirebaseService{
    
    
    Future<Either> signup(UserCreationReq user);
+   Future<Either> getAges();
+
 
 }
 
@@ -46,6 +48,21 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
 
     }
    
+  }
+  
+  @override
+  Future<Either> getAges() async{
+    try{
+        var returnedData = await FirebaseFirestore.instance.collection('Ages').get();
+        return Right(
+          returnedData.docs
+        );
+     } 
+    catch(e){
+      return const Left(
+           'Please try again'
+      );
+    }
   }
   
 }
