@@ -33,21 +33,20 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService{
           'Age':user.Age
         }
       );
-          return Right(
-            'Signup was successful!!'
-          );
+            return const Right(
+        'Sign up was successfull'
+      );
 
-    }on FirebaseAuthException catch(e){
-      String Message = '';
-      if(e.code == 'weak-password'){
-        Message= 'The password provided is too weak';
-      } else if(e.code =='e-mail already-in-use'){
-       Message = 'An account already exists with that email';
+    } on FirebaseAuthException catch(e){
+      String message = '';
+      
+      if(e.code == 'weak-password') {
+        message = 'The password provided is too weak';
+      } else if (e.code == 'email-already-in-use') {
+        message = 'An account already exists with that email.';
       }
-      return Left(Message);
-
+      return Left(message);
     }
-   
   }
   
   @override

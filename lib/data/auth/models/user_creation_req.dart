@@ -13,7 +13,5 @@ class UserCreationReq{
     required this.Lastname,
     required this.Email,
     required this.Password,
-    required this.Gender,
-    required this.Age
   });
 }

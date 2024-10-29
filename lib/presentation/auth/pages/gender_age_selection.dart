@@ -1,7 +1,11 @@
+import 'package:ecommerce/common/bloc/button/button_state.dart';
+import 'package:ecommerce/common/bloc/button/button_state_cubit.dart';
 import 'package:ecommerce/common/helper/bottomsheet/app_bottomsheet.dart';
 import 'package:ecommerce/common/widgets/appbar/app_bar.dart';
-import 'package:ecommerce/common/widgets/button/basic_app_button.dart';
+import 'package:ecommerce/common/widgets/button/basic_reactive_button.dart';
 import 'package:ecommerce/core/themes/app_colors.dart';
+import 'package:ecommerce/data/auth/models/user_creation_req.dart';
+import 'package:ecommerce/domain/auth/usecases/signup.dart';
 import 'package:ecommerce/presentation/auth/bloc/age_selection_cubit.dart';
 import 'package:ecommerce/presentation/auth/bloc/ages_display_cubit.dart';
 import 'package:ecommerce/presentation/auth/bloc/gender_selection_cubit.dart';
@@ -10,8 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GenderAgeSelection extends StatelessWidget {
-  const GenderAgeSelection({super.key});
-
+  const GenderAgeSelection({super.key,required this.userCreationReq});
+  final UserCreationReq userCreationReq;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,34 +24,43 @@ class GenderAgeSelection extends StatelessWidget {
       providers: [
           BlocProvider(create: (context) => GenderSelectionCubit()),
           BlocProvider(create: (context) => AgeSelectionCubit()),
-          BlocProvider(create: (context) => AgesDisplayCubit())
+          BlocProvider(create: (context) => AgesDisplayCubit()),
+          BlocProvider(create: (context) => ButtonStateCubit()),
       ],
      child:
-     Column(
-      children:[
-     Padding(
-      padding: EdgeInsets.symmetric(
-      vertical: 50,
-      horizontal: 25
-     ),
-     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-            _tellUs(context),
-            SizedBox(height: 45),
-            _forWho(context),
-            SizedBox(height: 20),
-            _genders(context),
-            SizedBox(height: 45),
-            _howOld(context),
-             SizedBox(height: 20),
-             _age(context)
+     BlocListener<ButtonStateCubit,ButtonState>(
+      listener: (context,state){
+        if(state is ButtonFailureState){
+          var snackbar = SnackBar(content: Text(state.errorMessage),behavior: SnackBarBehavior.floating,);
+          ScaffoldMessenger.of(context).showSnackBar(snackbar);
+        }
+      },
+       child: Column(
+        children:[
+       Padding(
+        padding: EdgeInsets.symmetric(
+        vertical: 50,
+        horizontal: 25
+       ),
+       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+              _tellUs(context),
+              SizedBox(height: 45),
+              _forWho(context),
+              SizedBox(height: 20),
+              _genders(context),
+              SizedBox(height: 45),
+              _howOld(context),
+               SizedBox(height: 20),
+               _age(context)
+          ],
+       ),
+       ),
+       const Spacer(),
+        _finishButton(context)
         ],
-     ),
-     ),
-     const Spacer(),
-      _finishButton(context)
-      ],
+       ),
      ),
      ),
     );
@@ -165,8 +178,20 @@ class GenderAgeSelection extends StatelessWidget {
       color: AppColors.secondBackground,
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Center(
-        child: BasicAppButton(onPressed: (){},
-        title: 'Finish'
+        child: Builder(
+          builder: (context){
+          return BasicReactiveButton(
+            onPressed: (){
+              userCreationReq.Gender = context.read<GenderSelectionCubit>().selectedindex;
+              userCreationReq.Age=context.read<AgeSelectionCubit>().selectedAge;
+              context.read<ButtonStateCubit>().execute(
+                       usecase: SignupUseCase(),
+                       params: userCreationReq,
+                       );
+            },
+          title: 'Finish'
+          );
+          }
         ),
       ),
     );
